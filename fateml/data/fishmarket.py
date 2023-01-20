@@ -104,9 +104,9 @@ def prepare_for_regression(df: pd.DataFrame, normalize=False, statsmodels_format
         train = sm.add_constant(train)
         test = sm.add_constant(test)
 
-    dataset.train_x = train[train.columns.difference(['Weight'])]
+    dataset.train_x = train[train.columns.difference(['Weight', 'Species'])]
     dataset.train_y = train[['Weight']]
-    dataset.test_x = test[test.columns.difference(['Weight'])]
+    dataset.test_x = test[test.columns.difference(['Weight', 'Species'])]
     dataset.test_y = test[['Weight']]
 
     return dataset
