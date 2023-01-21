@@ -31,6 +31,7 @@ def prepare_for_classification(df: pd.DataFrame, standardize=False, statsmodels_
 
     # encode labels
     label = LabelEncoder()
+    dataset.other["label_encoder"] = label
     # collect possible labels
     label.fit(df[['Species']])
     # transform labels on train
