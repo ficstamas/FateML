@@ -1,16 +1,16 @@
 import pandas as pd
 from sklearn.model_selection import train_test_split
 from fateml.data.utils import DataSplits
-from sklearn.preprocessing import OneHotEncoder, Normalizer, LabelEncoder
+from sklearn.preprocessing import OneHotEncoder, Normalizer, LabelEncoder, StandardScaler
 import statsmodels.api as sm
 from typing import Dict
 
 
-def prepare_for_classification(df: pd.DataFrame, normalize=False, statsmodels_format=False) -> DataSplits:
+def prepare_for_classification(df: pd.DataFrame, standardize=False, statsmodels_format=False) -> DataSplits:
     """
     Prepares the fish market dataset for classification
     :param df: fish market dataset
-    :param normalize: Normalize numeric parameters
+    :param standardize: Standardize numeric parameters
     :param statsmodels_format: adds an extra const column to the dataset
     :return:
     """
@@ -51,9 +51,9 @@ def prepare_for_classification(df: pd.DataFrame, normalize=False, statsmodels_fo
         ],
         axis=1
     )
-    if normalize:
-        train_, test_, other = _normalize(train[train.columns.difference(['Species'])],
-                                          test[test.columns.difference(['Species'])])
+    if standardize:
+        train_, test_, other = _standardize(train[train.columns.difference(['Species'])],
+                                            test[test.columns.difference(['Species'])])
         dataset.other["normalizer"] = other
         train = train_
         test = test_
@@ -70,11 +70,11 @@ def prepare_for_classification(df: pd.DataFrame, normalize=False, statsmodels_fo
     return dataset
 
 
-def prepare_for_regression(df: pd.DataFrame, normalize=False, statsmodels_format=False) -> DataSplits:
+def prepare_for_regression(df: pd.DataFrame, standardize=False, statsmodels_format=False) -> DataSplits:
     """
     Prepares the fish market dataset for regression
     :param df: fish market dataset
-    :param normalize: Normalize numeric parameters
+    :param standardize: Normalize numeric parameters
     :param statsmodels_format: adds an extra const column to the dataset
     :return:
     """
@@ -93,9 +93,9 @@ def prepare_for_regression(df: pd.DataFrame, normalize=False, statsmodels_format
     test: pd.DataFrame
     train, test = train_test_split(preprocessed_df, train_size=0.7, random_state=0)
 
-    if normalize:
-        train_, test_, other = _normalize(train[train.columns.difference(categories + ['Weight', 'Species'])],
-                                          test[test.columns.difference(categories + ['Weight', 'Species'])])
+    if standardize:
+        train_, test_, other = _standardize(train[train.columns.difference(categories + ['Weight', 'Species'])],
+                                            test[test.columns.difference(categories + ['Weight', 'Species'])])
         dataset.other["normalizer"] = other
         train = pd.concat([train_, train[categories + ['Weight']]], axis=1)
         test = pd.concat([test_, test[categories + ['Weight']]], axis=1)
@@ -112,16 +112,12 @@ def prepare_for_regression(df: pd.DataFrame, normalize=False, statsmodels_format
     return dataset
 
 
-def _normalize(train: pd.DataFrame, test: pd.DataFrame) -> (pd.DataFrame, pd.DataFrame, Dict):
-    norm = Normalizer()
+def _standardize(train: pd.DataFrame, test: pd.DataFrame) -> (pd.DataFrame, pd.DataFrame, Dict):
+    stand = StandardScaler()
 
-    mean = train.mean()
-    train = train.subtract(mean)
-    test = test.subtract(mean)
-
-    normalized = norm.fit_transform(train)
+    normalized = stand.fit_transform(train)
     train = pd.DataFrame(data=normalized, columns=train.columns, index=train.index)
-    normalized = norm.transform(test)
+    normalized = stand.transform(test)
     test = pd.DataFrame(data=normalized, columns=test.columns, index=test.index)
-    return train, test, {"normalizer": norm, "mean": mean}
+    return train, test, {"standardizer": stand}
 
