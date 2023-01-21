@@ -16,8 +16,8 @@ def prepare_for_classification(df: pd.DataFrame, standardize=False, statsmodels_
     """
     dataset = DataSplits()
 
-    encoder = OneHotEncoder()
-    data = encoder.fit_transform(df['Species'].values.reshape(-1, 1)).toarray()
+    # encoder = OneHotEncoder()
+    # data = encoder.fit_transform(df['Species'].values.reshape(-1, 1)).toarray()
 
     # categories = df['Species'].unique()
     # index = df.index
@@ -47,7 +47,7 @@ def prepare_for_classification(df: pd.DataFrame, standardize=False, statsmodels_
     labels_ = label.transform(test['Species'])
     test = pd.concat(
         [
-            train[train.columns.difference(['Species'])],
+            test[test.columns.difference(['Species'])],
             pd.DataFrame(data=labels_, columns=['Species'], index=test.index)
         ],
         axis=1
