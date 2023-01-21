@@ -55,8 +55,8 @@ def prepare_for_classification(df: pd.DataFrame, standardize=False, statsmodels_
         train_, test_, other = _standardize(train[train.columns.difference(['Species'])],
                                             test[test.columns.difference(['Species'])])
         dataset.other["normalizer"] = other
-        train = train_
-        test = test_
+        train = pd.concat([train_, train[['Species']]], axis=1)
+        test = pd.concat([test_, test[['Species']]], axis=1)
 
     if statsmodels_format:
         train = sm.add_constant(train)
