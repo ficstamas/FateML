@@ -19,11 +19,11 @@ def prepare_for_classification(df: pd.DataFrame, standardize=False, statsmodels_
     encoder = OneHotEncoder()
     data = encoder.fit_transform(df['Species'].values.reshape(-1, 1)).toarray()
 
-    categories = df['Species'].unique()
-    index = df.index
-    encoded_species = pd.DataFrame(data=data, index=index, columns=categories)
+    # categories = df['Species'].unique()
+    # index = df.index
+    # encoded_species = pd.DataFrame(data=data, index=index, columns=categories)
 
-    preprocessed_df = pd.concat([df, encoded_species], axis=1)
+    preprocessed_df = df
 
     train: pd.DataFrame
     test: pd.DataFrame
