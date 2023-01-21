@@ -4,6 +4,7 @@ from typing import Optional, Any
 from sklearn.preprocessing import LabelEncoder
 import copy
 import numpy as np
+import warnings
 
 
 @dataclasses.dataclass
@@ -15,6 +16,7 @@ class DataSplits:
     test_x: Optional[pd.DataFrame] = None
     test_y: Optional[pd.DataFrame] = None
     other: Optional[Any] = dataclasses.field(default_factory=lambda: {})
+    features: Optional[Any] = dataclasses.field(default_factory=lambda: {})
 
 
 def binarize_labels_in_splits(split: DataSplits, target_label: str) -> DataSplits:
@@ -42,3 +44,9 @@ def binarize_label(df_: pd.DataFrame, target_label: str, label_encoder: LabelEnc
     series[series == id_] = 1
     series.name = target_label
     return series.to_frame()
+
+
+def enforce_dtypes(df: pd.DataFrame, cols: list, dtype):
+    with warnings.catch_warnings():
+        warnings.simplefilter("ignore")
+        df[cols] = df[cols].astype(dtype)
