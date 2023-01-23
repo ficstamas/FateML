@@ -1,7 +1,4 @@
-import bike_rental
-import cervical_cancer
-import diabetes
-import iris
+from fateml.data import bike_rental, cervical_cancer, diabetes, iris
 
 
 _DATASETS = {
