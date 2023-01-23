@@ -24,7 +24,7 @@ def load_dataset(standardize=True, statsmodels_format=True):
                                        test[splits.features["numeric"]])
         train_, dev_, other = _standardize(train[splits.features["numeric"]],
                                            dev[splits.features["numeric"]])
-        splits.other["normalizer"] = other
+        splits.other["preprocessor"] = other
         train = pd.concat([train_, train[["target"]]], axis=1)
         test = pd.concat([test_, test[["target"]]], axis=1)
         dev = pd.concat([dev_, dev[["target"]]], axis=1)

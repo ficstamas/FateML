@@ -55,7 +55,7 @@ def prepare_for_classification(df: pd.DataFrame, standardize=False, statsmodels_
     if standardize:
         train_, test_, other = _standardize(train[train.columns.difference(['Species'])],
                                             test[test.columns.difference(['Species'])])
-        dataset.other["normalizer"] = other
+        dataset.other["preprocessor"] = other
         train = pd.concat([train_, train[['Species']]], axis=1)
         test = pd.concat([test_, test[['Species']]], axis=1)
 
@@ -97,7 +97,7 @@ def prepare_for_regression(df: pd.DataFrame, standardize=False, statsmodels_form
     if standardize:
         train_, test_, other = _standardize(train[train.columns.difference(categories + ['Weight', 'Species'])],
                                             test[test.columns.difference(categories + ['Weight', 'Species'])])
-        dataset.other["normalizer"] = other
+        dataset.other["preprocessor"] = other
         train = pd.concat([train_, train[categories + ['Weight']]], axis=1)
         test = pd.concat([test_, test[categories + ['Weight']]], axis=1)
 

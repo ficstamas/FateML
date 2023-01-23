@@ -18,6 +18,22 @@ class DataSplits:
     other: Optional[Any] = dataclasses.field(default_factory=lambda: {})
     features: Optional[Any] = dataclasses.field(default_factory=lambda: {})
 
+    def __repr__(self):
+        rep = f"""
+DataSplits{{
+    train_x > {type(self.train_x)}: shape <{self.train_x.shape if self.train_x is not None else None}>
+    train_y > {type(self.train_y)}: shape <{self.train_y.shape if self.train_y is not None else None}>
+    dev_x > {type(self.dev_x)}: shape <{self.dev_x.shape if self.dev_x is not None else None}>
+    dev_y > {type(self.dev_y)}: shape <{self.dev_y.shape if self.dev_y is not None else None}>
+    test_x > {type(self.test_x)}: shape <{self.test_x.shape if self.test_x is not None else None}>
+    test_y > {type(self.test_y)}: shape <{self.test_y.shape if self.test_y is not None else None}>
+    
+    features > {self.features}
+    other > {self.other}
+}}        
+        """
+        return rep
+
 
 def binarize_labels_in_splits(split: DataSplits, target_label: str) -> DataSplits:
     split = copy.deepcopy(split)

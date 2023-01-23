@@ -70,7 +70,7 @@ def load_dataset(standardize: bool, statsmodels_format: bool):
                                        test[test.columns.difference(features_boolean + [target, ])])
         train_, dev_, other = _standardize(train[train.columns.difference(features_boolean + [target, ])],
                                            dev[dev.columns.difference(features_boolean + [target, ])])
-        splits.other["normalizer"] = other
+        splits.other["preprocessor"] = other
         train = pd.concat([train_, train[features_boolean + [target, ]]], axis=1)
         test = pd.concat([test_, test[features_boolean + [target, ]]], axis=1)
         dev = pd.concat([dev_, dev[features_boolean + [target, ]]], axis=1)

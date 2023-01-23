@@ -11,7 +11,8 @@ def load_dataset(standardize=True, statsmodels_format=True):
     df = df.frame
     splits = DataSplits()
     splits.features = {
-        "numeric": df.columns.difference(["target"]).tolist(),
+        "numeric": df.columns.difference(["target", "sex"]).tolist(),
+        "categorical": ["sex"],
         "target": "target"
     }
 
@@ -23,10 +24,10 @@ def load_dataset(standardize=True, statsmodels_format=True):
                                        test[splits.features["numeric"]])
         train_, dev_, other = _standardize(train[splits.features["numeric"]],
                                            dev[splits.features["numeric"]])
-        splits.other["normalizer"] = other
-        train = pd.concat([train_, train[["target"]]], axis=1)
-        test = pd.concat([test_, test[["target"]]], axis=1)
-        dev = pd.concat([dev_, dev[["target"]]], axis=1)
+        splits.other["preprocessor"] = other
+        train = pd.concat([train_, train[splits.features["categorical"] + ["target"]]], axis=1)
+        test = pd.concat([test_, test[splits.features["categorical"] + ["target"]]], axis=1)
+        dev = pd.concat([dev_, dev[splits.features["categorical"] + ["target"]]], axis=1)
 
     if statsmodels_format:
         train = sm.add_constant(train)
