@@ -1,9 +1,8 @@
 import pandas as pd
 from sklearn.model_selection import train_test_split
-from fateml.data.utils import DataSplits, enforce_dtypes
+from fateml.data.utils import DataSplits
 import statsmodels.api as sm
 import numpy as np
-from sklearn.impute import SimpleImputer
 from .fishmarket import _standardize
 from sklearn.preprocessing import OneHotEncoder
 
