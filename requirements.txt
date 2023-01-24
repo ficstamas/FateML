@@ -5,3 +5,5 @@ matplotlib==3.5.1
 seaborn==0.12.2
 scikit-learn==1.2.0
 statsmodels==0.13.5
+ipympl
+jupyterlab
