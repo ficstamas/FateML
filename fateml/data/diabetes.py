@@ -6,8 +6,8 @@ from .fishmarket import _standardize
 import pandas as pd
 
 
-def load_dataset(standardize=True, statsmodels_format=True):
-    df = load_diabetes(as_frame=True)
+def load_dataset(standardize=True, statsmodels_format=True, scaled=True):
+    df = load_diabetes(as_frame=True, scaled=scaled)
     df = df.frame
     splits = DataSplits()
     splits.features = {
