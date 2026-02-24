@@ -33,7 +33,7 @@ def prepare_for_classification(df: pd.DataFrame, standardize=False, statsmodels_
     label = LabelEncoder()
     dataset.other["label_encoder"] = label
     # collect possible labels
-    label.fit(df[['Species']])
+    label.fit(df['Species'])
     # transform labels on train
     labels_ = label.transform(train['Species'])
     train = pd.concat(
@@ -121,4 +121,3 @@ def _standardize(train: pd.DataFrame, test: pd.DataFrame) -> (pd.DataFrame, pd.D
     normalized = stand.transform(test)
     test = pd.DataFrame(data=normalized, columns=test.columns, index=test.index)
     return train, test, {"standardizer": stand}
-
