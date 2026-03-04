@@ -28,11 +28,6 @@ def load_dataset(standardize=True):
         test = pd.concat([test_, test[["target"]]], axis=1)
         dev = pd.concat([dev_, dev[["target"]]], axis=1)
 
-    if statsmodels_format:
-        train = sm.add_constant(train)
-        test = sm.add_constant(test)
-        dev = sm.add_constant(dev)
-
     splits.train_x = train[train.columns.difference(["target"])]
     splits.train_y = train[["target"]]
     splits.test_x = test[test.columns.difference(["target"])]
