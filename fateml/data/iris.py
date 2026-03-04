@@ -1,12 +1,11 @@
 from sklearn.datasets import load_iris
 from sklearn.model_selection import train_test_split
 from fateml.data.utils import DataSplits
-import statsmodels.api as sm
 from .fishmarket import _standardize
 import pandas as pd
 
 
-def load_dataset(standardize=True, statsmodels_format=True):
+def load_dataset(standardize=True):
     df = load_iris(as_frame=True)
     df, targets = df.frame, df.target_names
     splits = DataSplits()

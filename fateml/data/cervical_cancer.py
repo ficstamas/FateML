@@ -1,7 +1,6 @@
 import pandas as pd
 from sklearn.model_selection import train_test_split
 from fateml.data.utils import DataSplits, enforce_dtypes
-import statsmodels.api as sm
 import numpy as np
 from sklearn.impute import SimpleImputer
 from .fishmarket import _standardize
@@ -58,11 +57,6 @@ def load_dataset(standardize: bool, statsmodels_format: bool, impute_strategy='m
         train = pd.concat([train_, train[features_boolean + [target, ]]], axis=1)
         test = pd.concat([test_, test[features_boolean + [target, ]]], axis=1)
         dev = pd.concat([dev_, dev[features_boolean + [target, ]]], axis=1)
-
-    if statsmodels_format:
-        train = sm.add_constant(train)
-        test = sm.add_constant(test)
-        dev = sm.add_constant(dev)
 
     splits.train_x = train[train.columns.difference([target])]
     splits.train_y = train[[target]]

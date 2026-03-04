@@ -2,11 +2,10 @@ import pandas as pd
 from sklearn.model_selection import train_test_split
 from fateml.data.utils import DataSplits
 from sklearn.preprocessing import OneHotEncoder, Normalizer, LabelEncoder, StandardScaler
-import statsmodels.api as sm
 from typing import Dict
 
 
-def prepare_for_classification(df: pd.DataFrame, standardize=False, statsmodels_format=False) -> DataSplits:
+def prepare_for_classification(df: pd.DataFrame, standardize=False) -> DataSplits:
     """
     Prepares the fish market dataset for classification
     :param df: fish market dataset
@@ -59,10 +58,6 @@ def prepare_for_classification(df: pd.DataFrame, standardize=False, statsmodels_
         train = pd.concat([train_, train[['Species']]], axis=1)
         test = pd.concat([test_, test[['Species']]], axis=1)
 
-    if statsmodels_format:
-        train = sm.add_constant(train)
-        test = sm.add_constant(test)
-
     dataset.train_x = train[train.columns.difference(['Species'])]
     dataset.train_y = train[['Species']]
     dataset.test_x = test[test.columns.difference(['Species'])]
@@ -100,10 +95,6 @@ def prepare_for_regression(df: pd.DataFrame, standardize=False, statsmodels_form
         dataset.other["preprocessor"] = other
         train = pd.concat([train_, train[categories + ['Weight']]], axis=1)
         test = pd.concat([test_, test[categories + ['Weight']]], axis=1)
-
-    if statsmodels_format:
-        train = sm.add_constant(train)
-        test = sm.add_constant(test)
 
     dataset.train_x = train[train.columns.difference(['Weight', 'Species'])]
     dataset.train_y = train[['Weight']]

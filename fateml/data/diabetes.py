@@ -1,12 +1,11 @@
 from sklearn.datasets import load_diabetes
 from sklearn.model_selection import train_test_split
 from fateml.data.utils import DataSplits
-import statsmodels.api as sm
 from .fishmarket import _standardize
 import pandas as pd
 
 
-def load_dataset(standardize=True, statsmodels_format=True, scaled=True):
+def load_dataset(standardize=True, scaled=True):
     df = load_diabetes(as_frame=True, scaled=scaled)
     df = df.frame
     splits = DataSplits()
@@ -28,11 +27,6 @@ def load_dataset(standardize=True, statsmodels_format=True, scaled=True):
         train = pd.concat([train_, train[splits.features["categorical"] + ["target"]]], axis=1)
         test = pd.concat([test_, test[splits.features["categorical"] + ["target"]]], axis=1)
         dev = pd.concat([dev_, dev[splits.features["categorical"] + ["target"]]], axis=1)
-
-    if statsmodels_format:
-        train = sm.add_constant(train)
-        test = sm.add_constant(test)
-        dev = sm.add_constant(dev)
 
     splits.train_x = train[train.columns.difference(["target"])]
     splits.train_y = train[["target"]]
