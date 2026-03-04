@@ -24,8 +24,7 @@ def load_dataset(standardize: bool, impute_strategy='most_frequent'):
         df.loc[df[column] == '?', column] = np.nan
         # Let's change the boolean values to boolean from string
         if column in features_boolean + [target]:
-            df.loc[df[column].astype('float').astype('bool'), column] = True
-            df.loc[~df[column].astype('float').astype('bool'), column] = False
+            df[column] = df[column].astype(float).astype(bool)
 
     enforce_dtypes(df, features_numeric, float)
     enforce_dtypes(df, features_boolean + [target], bool)
