@@ -6,7 +6,7 @@ from sklearn.impute import SimpleImputer
 from .fishmarket import _standardize
 
 
-def load_dataset(standardize: bool, statsmodels_format: bool, impute_strategy='most_frequent'):
+def load_dataset(standardize: bool, impute_strategy='most_frequent'):
     df = pd.read_csv("https://raw.githubusercontent.com/ficstamas/FateML/1d501349b56c8c65e601b6ce40c56cca2a8050a5/notebooks/data/risk_factors_cervical_cancer.csv")
     splits = DataSplits()
 

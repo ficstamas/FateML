@@ -66,7 +66,7 @@ def prepare_for_classification(df: pd.DataFrame, standardize=False) -> DataSplit
     return dataset
 
 
-def prepare_for_regression(df: pd.DataFrame, standardize=False, statsmodels_format=False) -> DataSplits:
+def prepare_for_regression(df: pd.DataFrame, standardize=False) -> DataSplits:
     """
     Prepares the fish market dataset for regression
     :param df: fish market dataset
