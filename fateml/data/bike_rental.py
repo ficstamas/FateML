@@ -6,7 +6,7 @@ from .fishmarket import _standardize
 from sklearn.preprocessing import OneHotEncoder
 
 
-def load_dataset(standardize: bool, statsmodels_format: bool):
+def load_dataset(standardize: bool):
     df = pd.read_csv("https://raw.githubusercontent.com/ficstamas/FateML/1d501349b56c8c65e601b6ce40c56cca2a8050a5/notebooks/data/bike_rental_daily.csv")
     splits = DataSplits()
     df = df.drop(['instant', 'dteday', 'casual', 'registered'], axis=1)
